@@ -1,6 +1,6 @@
-package com.zerock.ex02.service;
+package com.spring.springweb.service;
 
-import com.zerock.ex02.domain.BoardVO;
+import com.spring.springweb.domain.BoardVO;
 
 import java.util.List;
 

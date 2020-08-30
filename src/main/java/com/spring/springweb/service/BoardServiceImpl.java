@@ -1,12 +1,10 @@
-package com.zerock.ex02.service;
+package com.spring.springweb.service;
 
-import com.zerock.ex02.domain.BoardVO;
-import com.zerock.ex02.repository.BoardRepository;
+import com.spring.springweb.domain.BoardVO;
+import com.spring.springweb.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

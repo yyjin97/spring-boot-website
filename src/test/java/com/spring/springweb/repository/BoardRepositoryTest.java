@@ -1,9 +1,11 @@
-package com.zerock.ex02.repository;
+package com.spring.springweb.repository;
 
-import com.zerock.ex02.domain.BoardVO;
+import com.spring.springweb.domain.BoardVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Date;
 
 @SpringBootTest
 class BoardRepositoryTest {
@@ -19,11 +21,14 @@ class BoardRepositoryTest {
     @Test
     public void testInsertBoardVO() {
         BoardVO boardVO = new BoardVO();
+        Date now = new Date();
 
         boardVO.setBno(2);
         boardVO.setContent("content");
         boardVO.setTitle("title");
         boardVO.setWriter("writer");
+        boardVO.setRegDate(now);
+        boardVO.setUpdateDate(now);
 
         boardRepository.save(boardVO);
     }

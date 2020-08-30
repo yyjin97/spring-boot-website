@@ -1,10 +1,10 @@
-package com.zerock.ex02;
+package com.spring.springweb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Ex02ApplicationTests {
+class SpringWebApplicationTests {
 
     @Test
     void contextLoads() {

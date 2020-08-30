@@ -1,15 +1,9 @@
-package com.zerock.ex02.service;
+package com.spring.springweb.service;
 
-import com.zerock.ex02.domain.BoardVO;
-import org.junit.After;
+import com.spring.springweb.domain.BoardVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BoardServiceTest {

@@ -1,7 +1,7 @@
-package com.zerock.ex02.controller;
+package com.spring.springweb.controller;
 
-import com.zerock.ex02.domain.BoardVO;
-import com.zerock.ex02.service.BoardService;
+import com.spring.springweb.domain.BoardVO;
+import com.spring.springweb.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
