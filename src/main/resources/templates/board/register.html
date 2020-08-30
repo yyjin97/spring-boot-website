@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layoutAuthentication">
+    <head>
+        <title>Board Register</title>
+    </head>
+    <body class="bg-primary">
+        <th:block layout:fragment="content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Board Register</h3></div>
+                                <div class="card-body">
+                                    <form th:action="@{/board/register}" method="post">
+                                        <div class="form-row">
+                                            <label class="small mb-2" for="title">게시물 제목</label>
+                                            <input class="form-control py-4" id="title" name="title" type="text" placeholder="Enter title" />
+                                        </div>
+                                        <div class="form-row">
+                                            <label class="small mb-2 mt-2" for="content">게시물 내용</label>
+                                            <textarea class="form-control" id="content" name="content" type="text" rows="3" placeholder="Enter content"></textarea>
+                                        </div>
+                                        <div class="form-row">
+                                            <label class="small mb-2 mt-2" for="writer">작성자</label>
+                                            <input class="form-control py-4" id="writer" name="writer" type="text" placeholder="Enter user" />
+                                        </div>
+                                        <div class="form-group mt-4 mb-0"><button class="btn btn-primary btn-block" type="submit">게시물 등록</button></div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="small"><a href="../login.html">Have an account? Go to login</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </th:block>
+    </body>
+</html>

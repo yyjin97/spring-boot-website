@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">SB Admin</title>
+    <th:block th:replace="~{fragment/head::headFragment}"></th:block>
+
+<body>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <!-- 본문 -->
+                <div layout:fragment="content"></div>
+            </main>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <th:block th:replace="~{fragment/footer::footerFragment}"></th:block>
+        </div>
+    </div>
+    <th:block th:replace="~{fragment/script::scriptFragment}"></th:block>
+    <th:block layout:frament="bottomScript"></th:block>
+</body>
+</html>

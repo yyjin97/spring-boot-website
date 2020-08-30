@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="headFragment">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <!-- common css content -->
+    <link href="/css/styles.css" rel="stylesheet" />
+    <!-- user css content -->
+    <th:block layout:fragment="css"></th:block>
+    <!-- common script content -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+    <!-- user script content-->
+    <th:block layout:fragment="script"></th:block>
+</th:block>
+
+</html>
