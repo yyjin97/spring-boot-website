@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Modify Board</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <section class="header">
+            <h1 class="mt-4">
+                Modify Board #[[${board.bno}]]
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Board</a></li>
+                <li class="active">modify</li>
+            </ol>
+        </section>
+
+        <section class="content container-fluid">
+
+            <!--------------------------
+              | Your Page Content Here |
+              -------------------------->
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">MODIFY BOARD</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" th:action="@{/board/modify}">
+                    <div class="card-body" th:object="${board}">
+                        <input th:field="*{bno}" type="hidden"  >
+                        <div class="form-group">
+                            <label for="InputBoardTitle">Title</label>
+                            <input th:field="*{title}" type="text" class="form-control" id="InputBoardTitle">
+                        </div>
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea th:field="*{content}"  class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputBoardWriter">Writer</label>
+                            <input th:field="*{writer}" type="text"  class="form-control" id="InputBoardWriter">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-blue">Submit</button>
+                        <button type="button" class="btn btn-darkgreen" th:value="${board.bno}" onclick="location.href='/board/get?bno=' + value">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </section>
+    </div>
+</th:block>
+</body>
+</html>

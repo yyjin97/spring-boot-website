@@ -1,6 +1,7 @@
 package com.spring.springweb.service;
 
 import com.spring.springweb.domain.BoardVO;
+import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -78,10 +79,20 @@ public class BoardServiceImpl implements BoardService{
         return boardRepository.deleteBoardVOByBno(bno) == 1;
     }
 
-    @Override
-    public List<BoardVO> getList() {
-        log.info("get boardVO list");
+//    @Override
+//    public List<BoardVO> getList() {
+//        log.info("get boardVO list");
+//
+//        return boardRepository.getList();
+//    }
 
-        return boardRepository.getList();
+    @Override
+    public List<BoardVO> getList(Criteria cri) {
+        int amount = cri.getAmount();
+        int start = (cri.getPageNum() - 1) * amount;
+
+        log.info("get List with criteria: " + cri);
+
+        return boardRepository.getListWithPaging(start, amount);
     }
 }

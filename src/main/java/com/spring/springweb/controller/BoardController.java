@@ -1,6 +1,7 @@
 package com.spring.springweb.controller;
 
 import com.spring.springweb.domain.BoardVO;
+import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -28,10 +29,16 @@ public class BoardController {
         model.addAttribute("board", boardService.get(bno));
     }
 
+//    @GetMapping("/list")
+//    public void list(Model model) {
+//        log.info("list");
+//        model.addAttribute("list", boardService.getList());
+//    }
+
     @GetMapping("/list")
-    public void list(Model model) {
-        log.info("list");
-        model.addAttribute("list", boardService.getList());
+    public void list(Criteria cri, Model model) {
+        log.info("list: " + cri);
+        model.addAttribute("list", boardService.getList(cri));
     }
 
     @GetMapping("/register")
@@ -43,19 +50,27 @@ public class BoardController {
 
         boardService.register(board);
 
+        //model.addAttribute("result", board.getBno());
         rttr.addFlashAttribute("result", board.getBno());
 
         return "redirect:/board/list";
     }
 
+    @GetMapping("/modify")
+    public void modify(@RequestParam("bno") int bno, Model model) {
+        log.info("modify #" + bno);
+
+        model.addAttribute("board", boardService.get(bno));
+    }
+
     @PostMapping("/modify")
     public String modify(BoardVO board, RedirectAttributes rttr) {
-        log.info("modify:" + board);
+        log.info("modify post: " + board);
 
         if(boardService.modify(board)) {
             rttr.addFlashAttribute("result", "success");
         }
-        return "redirect:/board/list";
+        return "redirect:/board/get?bno=" + board.getBno();
     }
 
     @PostMapping("/remove")

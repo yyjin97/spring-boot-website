@@ -1,6 +1,7 @@
 package com.spring.springweb.service;
 
 import com.spring.springweb.domain.BoardVO;
+import com.spring.springweb.domain.Criteria;
 
 import java.util.List;
 
@@ -14,5 +15,6 @@ public interface BoardService {
 
     boolean remove(int bno);
 
-    List<BoardVO> getList();
+    //List<BoardVO> getList();
+    List<BoardVO> getList(Criteria cri);
 }

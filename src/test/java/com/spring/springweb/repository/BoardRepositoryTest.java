@@ -1,13 +1,17 @@
 package com.spring.springweb.repository;
 
 import com.spring.springweb.domain.BoardVO;
+import com.spring.springweb.domain.Criteria;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
+@Log4j2
 class BoardRepositoryTest {
 
     @Autowired
@@ -16,6 +20,17 @@ class BoardRepositoryTest {
     @Test
     public void testGetList() {
         boardRepository.getList().forEach(System.out::println);
+    }
+
+    @Test
+    public void testPaging() {
+        Criteria cri = new Criteria();
+        int amount = cri.getAmount();
+        int start = (cri.getPageNum() - 1) * amount;
+
+        List<BoardVO> list = boardRepository.getListWithPaging(start, amount);
+
+        list.forEach(board -> log.info(board));
     }
 
     @Test

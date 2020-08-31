@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default">
+      layout:decorate="~{layout/default}">
 
     <head>
         <title>Tables</title>
@@ -12,65 +12,64 @@
     </head>
     <body class="sb-nav-fixed">
         <th:block layout:fragment="content">
-            <main>
-                <div class="container-fluid">
-                    <h1 class="mt-4">Tables</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="../index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Tables</li>
-                    </ol>
-                    <div class="card mb-4">
-                        <div class="popover-header">Board List Page
-                            <button id="regBtn" name="regBtn" type="button" class="btn btn-sm float-right btn-outline-dark"
-                                    onclick="location.href='/board/register'">Register New Board</button>
-                        </div>
+            <div class="container-fluid">
+                <h1 class="mt-4">Tables</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Tables</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="popover-header">Board List Page
+                        <button id="regBtn" name="regBtn" type="button" class="btn btn-sm float-right btn-outline-dark"
+                                onclick="location.href='/board/register'">Register New Board</button>
                     </div>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table mr-1"></i>
-                            DataTable Example
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>#번호</th>
-                                        <th>제목</th>
-                                        <th>작성자</th>
-                                        <th>작성일</th>
-                                        <th>수정일</th>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        DataTable Example
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>#번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성일</th>
+                                    <th>수정일</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>#번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성일</th>
+                                    <th>수정일</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr class="text-over" th:each="board : ${list}">
+                                        <td th:text="${board.bno}"></td>
+                                        <td><a class="text-over" th:href="@{/board/get(bno=${board.bno})}">[[${board.title}]]</a></td>
+                                        <td th:text="${board.writer}"></td>
+                                        <td th:text="${#dates.format(board.regDate,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${#dates.format(board.updateDate, 'yyyy-MM-dd')}"></td>
                                     </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>#번호</th>
-                                        <th>제목</th>
-                                        <th>작성자</th>
-                                        <th>작성일</th>
-                                        <th>수정일</th>
-                                    </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    <tr th:each="board : ${list}">
-                                        <td th:text="${board.bno}"/>
-                                        <td th:text="${board.title}"/>
-                                        <td th:text="${board.writer}"/>
-                                        <td th:text="${#dates.format(board.regDate,'yyyy-MM-dd')}"/>
-                                        <td th:text="${#dates.format(board.updateDate, 'yyyy-MM-dd')}"/>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </th:block>
         <th:block layout:framgent="bottomScript">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-            <script src="assets/demo/datatables-demo.js"></script>
+            <script src="/assets/demo/datatables-demo.js"></script>
         </th:block>
+
     </body>
 </html>
