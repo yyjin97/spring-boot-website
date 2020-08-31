@@ -34,6 +34,11 @@ class BoardRepositoryTest {
     }
 
     @Test
+    public void testTotalBoard() {
+        log.info(boardRepository.getTotalCount());
+    }
+
+    @Test
     public void testInsertBoardVO() {
         BoardVO boardVO = new BoardVO();
         Date now = new Date();
@@ -48,14 +53,14 @@ class BoardRepositoryTest {
         boardRepository.save(boardVO);
     }
 
-    @Test
-    public void testGetByBno() {
-        int bno = 1;
-
-        BoardVO boardVO = boardRepository.getByBno(bno);
-
-        System.out.println(boardVO.getTitle());
-    }
+//    @Test
+//    public void testGetByBno() {
+//        int bno = 1;
+//
+//        BoardVO boardVO = boardRepository.getByBno(bno);
+//
+//        System.out.println(boardVO.getTitle());
+//    }
 
     @Test
     public void testDeleteByBno() {

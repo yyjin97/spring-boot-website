@@ -15,8 +15,9 @@
     <th:block layout:fragment="css"></th:block>
     <!-- common script content -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="/webjars/jquery/2.2.4/dist/jquery.min.js"></script>
-    <script src="/webjars/bootstrap/3.3.6/dist/js/bootstrap.min.js"></script>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/css/bootstrap.css}"></script>
     <!-- user script content-->
     <th:block layout:fragment="script"></th:block>
 </th:block>

@@ -4,14 +4,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
 
-    <head>
+<!--    <head>-->
         <title>Tables</title>
         <th:block layout:fragment="css">
             <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         </th:block>
-    </head>
-    <body class="sb-nav-fixed">
-        <th:block layout:fragment="content">
+<!--    </head>-->
+
+<!--    <body class="sb-nav-fixed">-->
+        <div layout:fragment="content">
             <div class="container-fluid">
                 <h1 class="mt-4">Tables</h1>
                 <ol class="breadcrumb mb-4">
@@ -27,7 +28,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
-                        DataTable Example
+                        DataTable
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -51,25 +52,91 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                    <tr class="text-over" th:each="board : ${list}">
-                                        <td th:text="${board.bno}"></td>
-                                        <td><a class="text-over" th:href="@{/board/get(bno=${board.bno})}">[[${board.title}]]</a></td>
-                                        <td th:text="${board.writer}"></td>
-                                        <td th:text="${#dates.format(board.regDate,'yyyy-MM-dd')}"></td>
-                                        <td th:text="${#dates.format(board.updateDate, 'yyyy-MM-dd')}"></td>
-                                    </tr>
+                                <tr class="text-over" th:each="board : ${list}">
+                                    <td th:text="${board.bno}"></td>
+                                    <td><a class="text-over move" th:href="${board.bno}">[[${board.title}]]</a></td>
+                                    <td th:text="${board.writer}"></td>
+                                    <td th:text="${#dates.format(board.regDate,'yyyy-MM-dd')}"></td>
+                                    <td th:text="${#dates.format(board.updateDate, 'yyyy-MM-dd')}"></td>
+                                </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div th:with="start=${pageMaker.startPage}, end=${pageMaker.endPage}">
+                            <ul class="pagination">
+                                <li class="page-item" th:if="${pageMaker.prev}">
+                                    <a class="page-link" th:href="@{/board/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount})}">Prev</a>
+                                </li>
+
+                                <li class="page-item" th:classappend="${page eq pageMaker.cri.pageNum} ? active" th:each="page: ${#numbers.sequence(start, end)}">
+                                    <a class="page-link" th:href="@{/board/list(pageNum=${page}, amount=${pageMaker.cri.amount})}" th:text="${page}"></a>
+                                </li>
+
+                                <li class="page-item" th:if="${pageMaker.next}">
+                                    <a class="page-link" th:href="@{/board/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount})}">Next</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </th:block>
-        <th:block layout:framgent="bottomScript">
+
+            <div class="modal" id="postModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">* 안내 *</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-blue" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="actionForm" action="board/list" method="get">
+                <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+                <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+            </form>
+
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
             <script src="/assets/demo/datatables-demo.js"></script>
-        </th:block>
+            <script>
+                $(document).ready(function () {
+                    const result = "[[${result}]]";
+                    checkModal(result);
 
-    </body>
+                    function checkModal(result) {
+                        if(result == '') {
+                            return;
+                        }
+
+                        if(parseInt(result) > 0) {
+                            $(".modal-body").html("게시글 " + parseInt(result) + "번이 삭제되었습니다.");
+                        }
+                        else if(result == "success") {
+                            $(".modal-body").html("게시글이 등록되었습니다.");
+                        }
+                        $("#postModal").modal("show");
+                    }
+
+                    const actionForm = $("#actionForm");
+
+                    $(".move").on("click", function (e) {
+                        e.preventDefault();
+                        actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+                        actionForm.attr("action", "/board/get");
+                        actionForm.submit();
+                    });
+                });
+            </script>
+        </div>
+<!--    </body>-->
 </html>

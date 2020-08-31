@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
-<head>
+<!--<head>-->
     <title>Board Read</title>
-</head>
-<body>
+<!--</head>-->
+<!--<body>-->
     <th:block layout:fragment="content">
         <div class="container-fluid">
             <section class="header">
@@ -26,37 +26,59 @@
                   -------------------------->
 
                 <div class="card">
+                    <!-- card-header -->
                     <div class="card-header">
                         <h3 class="card-title">READ BOARD</h3>
                     </div>
-                    <!-- form start -->
-                    <form role="form" method="post" th:action="@{/board/remove}">
-                        <div class="card-body" th:object="${board}">
-                            <input th:field="*{bno}" type="hidden" >
-                            <div class="form-group">
-                                <label for="InputBoardTitle">Title</label>
-                                <input th:value="*{title}" type="text" class="form-control" id="InputBoardTitle"  readonly="readonly">
-                            </div>
-                            <div class="form-group">
-                                <label>Content</label>
-                                <textarea th:inline="text" class="form-control" rows="3" readonly="readonly">[[*{content}]]</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputBoardWriter">Writer</label>
-                                <input th:value="*{writer}" type="text"  class="form-control" id="InputBoardWriter" readonly="readonly">
-                            </div>
+                    <!-- card-body -->
+                    <div class="card-body" th:object="${board}">
+                        <input th:field="*{bno}" type="hidden" >
+                        <div class="form-group">
+                            <label for="InputBoardTitle">Title</label>
+                            <input th:value="*{title}" type="text" class="form-control" id="InputBoardTitle"  readonly="readonly">
                         </div>
-                        <!-- /.box-body -->
-
-                        <div class="card-footer">
-                            <button type="button" class="btn btn-darkgreen" th:value="${board.bno}" onclick="location.href='/board/modify?bno=' + value" >Modify</button>
-                            <button type="submit" class="btn btn-puple">Remove</button>
-                            <button type="button" class="btn btn-blue" onclick="location.href='/board/list'">ListAll</button>
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea th:inline="text" class="form-control" rows="3" readonly="readonly">[[*{content}]]</textarea>
                         </div>
-                    </form>
+                        <div class="form-group">
+                            <label for="InputBoardWriter">Writer</label>
+                            <input th:value="*{writer}" type="text"  class="form-control" id="InputBoardWriter" readonly="readonly">
+                        </div>
+                    </div>
+                    <!-- card-footer -->
+                    <div class="card-footer">
+                        <button data-oper="modify" class="btn btn-darkgreen">Modify</button>
+                        <button data-oper="remove" class="btn btn-puple">Remove</button>
+                        <button data-oper="list" class="btn btn-blue">ListAll</button>
+                    </div>
                 </div>
             </section>
         </div>
+
+        <form id="operForm" action="/board/list" method="get">
+            <input type="hidden" id="bno" name="bno" th:value="${board.bno}">
+            <input type="hidden" id="pageNum" name="pageNum" th:value="${cri.pageNum}">
+            <input type="hidden" id="amount" name="amount" th:value="${cri.amount}">
+        </form>
+        <script>
+            $(document).ready(function () {
+                const operFrom = $("#operForm");
+
+                $("button[data-oper='modify']").on("click", function (e) {
+                    operFrom.attr("action", "/board/modify").submit();
+                })
+
+                $("button[data-oper='remove']").on("click", function (e) {
+                    operFrom.attr("method", "post");
+                    operFrom.attr("action", "/board/remove").submit();
+                })
+
+                $("button[data-oper='list']").on("click", function (e) {
+                    operFrom.submit();
+                })
+            })
+        </script>
     </th:block>
-</body>
+<!--</body>-->
 </html>

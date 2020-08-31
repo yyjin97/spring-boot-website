@@ -3,8 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 
+    <head>
         <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">SB Admin</title>
         <th:block th:replace="~{fragment/head::headFragment}"></th:block>
+    </head>
 
     <body>
         <th:block th:replace="~{fragment/navbar::navbarFragment}"></th:block>
@@ -24,6 +26,5 @@
             </div>
         </div>
         <th:block th:replace="~{fragment/script::scriptFragment}"></th:block>
-        <th:block layout:frament="bottomScript"></th:block>
     </body>
 </html>

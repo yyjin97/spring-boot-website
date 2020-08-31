@@ -2,16 +2,16 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/default">
+      layout:decorator="~{layout/default}">
 
-<head>
+<!--<head>-->
     <title>Dashboard</title>
 
     <th:block layout:fragment="css">
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     </th:block>
-</head>
-<body class="sb-nav-fixed">
+<!--</head>-->
+<!--<body class="sb-nav-fixed">-->
     <th:block layout:fragment="content">
         <main>
             <div class="container-fluid">
@@ -129,9 +129,7 @@
                 </div>
             </div>
         </main>
-    </th:block>
 
-    <th:block layout:fragment="bottomScript">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="/assets/demo/chart-area-demo.js"></script>
         <script src="/assets/demo/chart-bar-demo.js"></script>
@@ -139,5 +137,5 @@
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="/assets/demo/datatables-demo.js"></script>
     </th:block>
-</body>
+<!--</body>-->
 </html>

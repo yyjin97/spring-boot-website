@@ -95,4 +95,11 @@ public class BoardServiceImpl implements BoardService{
 
         return boardRepository.getListWithPaging(start, amount);
     }
+
+    @Override
+    public int getTotalCount() {
+        log.info("get total number of board");
+
+        return boardRepository.getTotalCount();
+    }
 }

@@ -21,6 +21,9 @@ public interface BoardRepository extends Repository<BoardVO, Integer> {
 
     boolean existsBoardVOByBno(int bno);
 
+    @Query("SELECT COUNT(board.bno) FROM BoardVO board")
+    int getTotalCount();
+
     @Query("UPDATE BoardVO SET title=:#{#boardVO.title}, content=:#{#boardVO.content}, writer=:#{#boardVO.writer}, updateDate=:#{#boardVO.updateDate} WHERE bno = :#{#boardVO.bno}")
     @Transactional
     @Modifying
