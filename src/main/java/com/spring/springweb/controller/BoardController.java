@@ -27,28 +27,12 @@ public class BoardController {
         model.addAttribute("board", boardService.get(bno));
     }
 
-//    @GetMapping("/list")
-//    public void list(Model model) {
-//        log.info("list");
-//        model.addAttribute("list", boardService.getList());
-//    }
-
     @GetMapping("/list")
     public void list(Criteria cri, Model model) {
         log.info("list: " + cri);
 
-        if(cri.getType() == 1) {
-            model.addAttribute("list", boardService.getListByTitle(cri));
-            model.addAttribute("pageMaker", new PageDTO(cri, boardService.getCountByTitle(cri.getKeyword())));
-        }
-        else if(cri.getType() == 2){
-            model.addAttribute("list", boardService.getListByWriter(cri));
-            model.addAttribute("pageMaker", new PageDTO(cri, boardService.getCountByWriter(cri.getKeyword())));
-        }
-        else {
-            model.addAttribute("list", boardService.getList(cri));
-            model.addAttribute("pageMaker", new PageDTO(cri, boardService.getTotalCount()));
-        }
+        model.addAttribute("list", boardService.getList(cri));
+        model.addAttribute("pageMaker", new PageDTO(cri, boardService.getTotalCount(cri)));
     }
 
     @GetMapping("/register")

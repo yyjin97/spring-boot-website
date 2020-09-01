@@ -15,12 +15,7 @@ public interface BoardService {
 
     boolean remove(int bno);
 
-    //List<BoardVO> getList();
     List<BoardVO> getList(Criteria cri);
-    List<BoardVO> getListByTitle(Criteria cri);
-    List<BoardVO> getListByWriter(Criteria cri);
 
-    int getTotalCount();
-    int getCountByTitle(String keyword);
-    int getCountByWriter(String keyword);
+    int getTotalCount(Criteria cri);
 }

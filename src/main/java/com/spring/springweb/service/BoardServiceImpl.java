@@ -79,13 +79,6 @@ public class BoardServiceImpl implements BoardService{
         return boardRepository.deleteBoardVOByBno(bno) == 1;
     }
 
-//    @Override
-//    public List<BoardVO> getList() {
-//        log.info("get boardVO list");
-//
-//        return boardRepository.getList();
-//    }
-
     @Override
     public List<BoardVO> getList(Criteria cri) {
         int amount = cri.getAmount();
@@ -93,47 +86,14 @@ public class BoardServiceImpl implements BoardService{
 
         log.info("get List with criteria: " + cri);
 
-        return boardRepository.getListWithPaging(start, amount);
+        return boardRepository.getList(cri.getType(), cri.getKeyword(), start, amount);
     }
 
     @Override
-    public List<BoardVO> getListByTitle(Criteria cri) {
-        int amount = cri.getAmount();
-        int start = (cri.getPageNum() - 1) * amount;
-
-        log.info("get List By Title with criteria: " + cri);
-
-        return boardRepository.getListByTitle(start, amount, cri.getKeyword());
-    }
-
-    @Override
-    public List<BoardVO> getListByWriter(Criteria cri) {
-        int amount = cri.getAmount();
-        int start = (cri.getPageNum() - 1) * amount;
-
-        log.info("get List By Writer with criteria: " + cri);
-
-        return boardRepository.getListByWriter(start, amount, cri.getKeyword());
-    }
-
-    @Override
-    public int getTotalCount() {
+    public int getTotalCount(Criteria cri) {
         log.info("get total number of board");
 
-        return boardRepository.getTotalCount();
+        return boardRepository.getTotalCount(cri.getType(), cri.getKeyword());
     }
 
-    @Override
-    public int getCountByTitle(String keyword) {
-        log.info("get count by title");
-
-        return boardRepository.getCountByTitle(keyword);
-    }
-
-    @Override
-    public int getCountByWriter(String keyword) {
-        log.info("get count by writer");
-
-        return boardRepository.getCountByWriter(keyword);
-    }
 }

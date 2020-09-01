@@ -13,7 +13,7 @@ public class Criteria {
     private String keyword;
 
     public Criteria() {
-        this(1, 10, 0, null);
+        this(1, 10, 0, "");
     }
 
     public Criteria(int pageNum, int amount, int type, String keyword) {
@@ -28,6 +28,8 @@ public class Criteria {
         return "Criteria{" +
                 "pageNum=" + pageNum +
                 ", amount=" + amount +
+                ", type=" + type +
+                ", keyword='" + keyword + '\'' +
                 '}';
     }
 }

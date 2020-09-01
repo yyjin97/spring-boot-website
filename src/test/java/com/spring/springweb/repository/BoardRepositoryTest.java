@@ -18,24 +18,19 @@ class BoardRepositoryTest {
     BoardRepository boardRepository;
 
     @Test
-    public void testGetList() {
-        boardRepository.getList().forEach(System.out::println);
-    }
-
-    @Test
     public void testPaging() {
         Criteria cri = new Criteria();
         int amount = cri.getAmount();
         int start = (cri.getPageNum() - 1) * amount;
 
-        List<BoardVO> list = boardRepository.getListByTitle(start, amount, "제목");
+        List<BoardVO> list = boardRepository.getList(cri.getType(), cri.getKeyword(), start, amount);
 
         list.forEach(board -> log.info(board));
     }
 
     @Test
     public void testTotalBoard() {
-        log.info(boardRepository.getTotalCount());
+        log.info(boardRepository.getTotalCount(2, "세"));
     }
 
     @Test
@@ -53,27 +48,11 @@ class BoardRepositoryTest {
         boardRepository.save(boardVO);
     }
 
-//    @Test
-//    public void testGetByBno() {
-//        int bno = 1;
-//
-//        BoardVO boardVO = boardRepository.getByBno(bno);
-//
-//        System.out.println(boardVO.getTitle());
-//    }
-
     @Test
     public void testDeleteByBno() {
         int bno = 3;
 
         System.out.println(boardRepository.deleteBoardVOByBno(bno));
-    }
-
-    @Test
-    public void testUpdateByBno() {
-        int bno = 1;
-
-        System.out.println(boardRepository.updateTitleByBno(bno, "제목"));
     }
 
     @Test

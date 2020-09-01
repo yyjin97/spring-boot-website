@@ -21,11 +21,6 @@ class BoardControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-//    @Test
-//    public void testList() throws Exception {
-//        log.info(mockMvc.perform(get("/board/list")).andReturn().getModelAndView().getModelMap());
-//    }
-
     @Test
     public void testListPaging() throws Exception {
         log.info(mockMvc.perform(get("/board/list")
@@ -44,13 +39,6 @@ class BoardControllerTest {
 
         log.info(resultPage);
     }
-
-//    @Test
-//    public void testGet() throws Exception {
-//        log.info(mockMvc.perform(get("/board/get")
-//                .param("bno", "2"))
-//                .andReturn().getModelAndView().getModelMap());
-//    }
 
     @Test
     public void testModify() throws Exception {

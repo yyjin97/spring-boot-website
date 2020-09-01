@@ -157,6 +157,7 @@
                     $("#searchForm button").on("click", function (e) {
 
                         if(!searchForm.find("input[name=keyword]").val()) {
+                            searchForm.find("input[name=pageNum]").val(1);
                             alert("키워드를 입력하세요.");
                             return;
                         }
