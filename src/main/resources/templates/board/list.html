@@ -62,18 +62,33 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <form class="form-inline mb-4 mt-2 justify-content-end d-flex" id="searchForm" action="/board/list" method="get">
+                            <select class="custom-select mr-2" id="selectType" name="type">
+                                <option value="1">Title</option>
+                                <option value="2">Writer</option>
+                            </select>
+                            <div>
+                                <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+                                <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+                                <input class="form-control mw-1000" type="text" name="keyword" th:value="${pageMaker.cri.keyword}" placeholder="Search"
+                                       aria-label="Search">
+                                <button class="btn"><i class="fas fa-search" aria-hidden="true"></i></button>
+                            </div>
+                        </form>
+
                         <div th:with="start=${pageMaker.startPage}, end=${pageMaker.endPage}">
-                            <ul class="pagination">
+                            <ul class="pagination float-right ml-3">
                                 <li class="page-item" th:if="${pageMaker.prev}">
-                                    <a class="page-link" th:href="@{/board/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount})}">Prev</a>
+                                    <a class="page-link" th:href="@{/board/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount}, type=${pageMaker.cri.type}, keyword=${pageMaker.cri.keyword})}">Prev</a>
                                 </li>
 
                                 <li class="page-item" th:classappend="${page eq pageMaker.cri.pageNum} ? active" th:each="page: ${#numbers.sequence(start, end)}">
-                                    <a class="page-link" th:href="@{/board/list(pageNum=${page}, amount=${pageMaker.cri.amount})}" th:text="${page}"></a>
+                                    <a class="page-link" th:href="@{/board/list(pageNum=${page}, amount=${pageMaker.cri.amount}, type=${pageMaker.cri.type}, keyword=${pageMaker.cri.keyword})}" th:text="${page}"></a>
                                 </li>
 
                                 <li class="page-item" th:if="${pageMaker.next}">
-                                    <a class="page-link" th:href="@{/board/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount})}">Next</a>
+                                    <a class="page-link" th:href="@{/board/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount}, type=${pageMaker.cri.type}, keyword=${pageMaker.cri.keyword})}">Next</a>
                                 </li>
                             </ul>
                         </div>
@@ -103,6 +118,8 @@
             <form id="actionForm" action="board/list" method="get">
                 <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
                 <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+                <input type="hidden" name="type" th:value="${pageMaker.cri.type}">
+                <input type="hidden" name="keyword" th:value="${pageMaker.cri.keyword}">
             </form>
 
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
@@ -134,6 +151,30 @@
                         actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
                         actionForm.attr("action", "/board/get");
                         actionForm.submit();
+                    });
+
+                    const searchForm = $("#searchForm");
+                    $("#searchForm button").on("click", function (e) {
+
+                        if(!searchForm.find("input[name=keyword]").val()) {
+                            alert("키워드를 입력하세요.");
+                            return;
+                        }
+
+                        searchForm.find("input[name=pageNum]").val(1);
+                        e.preventDefault();
+
+                        searchForm.submit();
+                    })
+
+                    $("#selectType option").each(function(){
+
+                        if($(this).val()=="[[${pageMaker.cri.type}]]"){
+
+                            $(this).attr("selected","selected");
+
+                        }
+
                     });
                 });
             </script>

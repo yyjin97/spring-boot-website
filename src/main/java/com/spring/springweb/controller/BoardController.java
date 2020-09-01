@@ -36,8 +36,19 @@ public class BoardController {
     @GetMapping("/list")
     public void list(Criteria cri, Model model) {
         log.info("list: " + cri);
-        model.addAttribute("list", boardService.getList(cri));
-        model.addAttribute("pageMaker", new PageDTO(cri, boardService.getTotalCount()));
+
+        if(cri.getType() == 1) {
+            model.addAttribute("list", boardService.getListByTitle(cri));
+            model.addAttribute("pageMaker", new PageDTO(cri, boardService.getCountByTitle(cri.getKeyword())));
+        }
+        else if(cri.getType() == 2){
+            model.addAttribute("list", boardService.getListByWriter(cri));
+            model.addAttribute("pageMaker", new PageDTO(cri, boardService.getCountByWriter(cri.getKeyword())));
+        }
+        else {
+            model.addAttribute("list", boardService.getList(cri));
+            model.addAttribute("pageMaker", new PageDTO(cri, boardService.getTotalCount()));
+        }
     }
 
     @GetMapping("/register")
@@ -55,13 +66,19 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
-    public String modify(BoardVO board, RedirectAttributes rttr) {
+    public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
         log.info("modify post: " + board);
 
         if(boardService.modify(board)) {
             rttr.addFlashAttribute("result", "success");
         }
-        return "redirect:/board/get?bno=" + board.getBno();
+        rttr.addAttribute("bno", board.getBno());
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+        rttr.addAttribute("type", cri.getType());
+        rttr.addAttribute("keyword", cri.getKeyword());
+
+        return "redirect:/board/get";
     }
 
     @PostMapping("/remove")
@@ -73,6 +90,8 @@ public class BoardController {
         }
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
+        rttr.addAttribute("type", cri.getType());
+        rttr.addAttribute("keyword", cri.getKeyword());
 
         return "redirect:/board/list";
     }

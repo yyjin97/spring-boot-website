@@ -28,7 +28,7 @@ class BoardRepositoryTest {
         int amount = cri.getAmount();
         int start = (cri.getPageNum() - 1) * amount;
 
-        List<BoardVO> list = boardRepository.getListWithPaging(start, amount);
+        List<BoardVO> list = boardRepository.getListByTitle(start, amount, "제목");
 
         list.forEach(board -> log.info(board));
     }

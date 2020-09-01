@@ -97,9 +97,43 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public List<BoardVO> getListByTitle(Criteria cri) {
+        int amount = cri.getAmount();
+        int start = (cri.getPageNum() - 1) * amount;
+
+        log.info("get List By Title with criteria: " + cri);
+
+        return boardRepository.getListByTitle(start, amount, cri.getKeyword());
+    }
+
+    @Override
+    public List<BoardVO> getListByWriter(Criteria cri) {
+        int amount = cri.getAmount();
+        int start = (cri.getPageNum() - 1) * amount;
+
+        log.info("get List By Writer with criteria: " + cri);
+
+        return boardRepository.getListByWriter(start, amount, cri.getKeyword());
+    }
+
+    @Override
     public int getTotalCount() {
         log.info("get total number of board");
 
         return boardRepository.getTotalCount();
+    }
+
+    @Override
+    public int getCountByTitle(String keyword) {
+        log.info("get count by title");
+
+        return boardRepository.getCountByTitle(keyword);
+    }
+
+    @Override
+    public int getCountByWriter(String keyword) {
+        log.info("get count by writer");
+
+        return boardRepository.getCountByWriter(keyword);
     }
 }

@@ -7,16 +7,20 @@ import lombok.Setter;
 public class Criteria {
 
     private int pageNum;
-
     private int amount;
 
+    private int type;
+    private String keyword;
+
     public Criteria() {
-        this(1, 10);
+        this(1, 10, 0, null);
     }
 
-    public Criteria(int pageNum, int amount) {
+    public Criteria(int pageNum, int amount, int type, String keyword) {
         this.pageNum = pageNum;
         this.amount = amount;
+        this.type = type;
+        this.keyword = keyword;
     }
 
     @Override

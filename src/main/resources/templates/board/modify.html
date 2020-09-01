@@ -31,9 +31,9 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" method="post" th:action="@{/board/modify}">
+                <form action="/board/modify" method="post">
                     <div class="card-body" th:object="${board}">
-                        <input th:field="*{bno}" type="hidden"  >
+                        <input th:field="*{bno}" type="hidden">
                         <div class="form-group">
                             <label for="InputBoardTitle">Title</label>
                             <input th:field="*{title}" type="text" class="form-control" id="InputBoardTitle">
@@ -47,15 +47,36 @@
                             <input th:field="*{writer}" type="text"  class="form-control" id="InputBoardWriter">
                         </div>
                     </div>
+                    <input name="pageNum" th:value="${cri.pageNum}" type="hidden">
+                    <input name="amount" th:value="${cri.amount}" type="hidden">
+                    <input name="type" th:value="${cri.type}" type="hidden">
+                    <input name="keyword" th:value="${cri.keyword}" type="hidden">
                     <div class="card-footer">
                         <button type="submit" class="btn btn-blue">Submit</button>
-                        <button type="button" class="btn btn-darkgreen" th:value="${board.bno}" onclick="location.href='/board/get?bno=' + value">Cancel</button>
+                        <button data-oper="cancel" type="button" class="btn btn-darkgreen">Cancel</button>
                     </div>
                 </form>
             </div>
             <!-- /.box -->
         </section>
     </div>
+
+    <form id="cancelForm" action="/board/get" method="get">
+        <input type="hidden" name="bno" th:value="${board.bno}">
+        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+        <input type="hidden" name="amount" th:value="${cri.amount}">
+        <input type="hidden" name="type" th:value="${cri.type}">
+        <input type="hidden" name="keyword" th:value="${cri.keyword}">
+    </form>
+    <script>
+        $(document).ready(function () {
+            const cancelFrom = $("#cancelForm");
+
+            $("button[data-oper='cancel']").on("click", function (e) {
+                cancelFrom.submit();
+            })
+        })
+    </script>
 </th:block>
 <!--</body>-->
 </html>
