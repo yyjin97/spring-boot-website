@@ -16,6 +16,8 @@ public class Criteria {
         this(1, 10, 0, "");
     }
 
+    public Criteria(int pageNum, int amount) { this(pageNum, amount, 0, ""); }
+
     public Criteria(int pageNum, int amount, int type, String keyword) {
         this.pageNum = pageNum;
         this.amount = amount;

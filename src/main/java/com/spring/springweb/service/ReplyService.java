@@ -1,5 +1,6 @@
 package com.spring.springweb.service;
 
+import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.domain.ReplyVO;
 
 import java.util.List;

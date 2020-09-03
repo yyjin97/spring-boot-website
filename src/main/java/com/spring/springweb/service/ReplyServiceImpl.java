@@ -1,10 +1,12 @@
 package com.spring.springweb.service;
 
+import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.domain.ReplyVO;
 import com.spring.springweb.repository.ReplyRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,10 +21,26 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public int register(ReplyVO replyVO) {
-        log.info("register reply #", replyVO.getRno());
+        Date now = new Date();
+
+        if(replyVO == null) {
+            log.info("register input cannot null");
+            return 0;
+        }
+
+        if(replyRepository.existsByRno(replyVO.getRno())) {
+            log.info("#" + replyVO.getRno() + " reply already exists");
+            return 0;
+        }
+
+        replyVO.setReplyDate(now);
+        replyVO.setUpdateDate(now);
+
+        log.info("register reply #" + replyVO.getRno());
 
         replyRepository.save(replyVO);
-        return 0;
+
+        return 1;
     }
 
     @Override
