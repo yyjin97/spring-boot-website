@@ -9834,6 +9834,10 @@ button.bg-dark:focus {
   color: #3F62A3 !important;
 }
 
+.text-blue {
+  color: #3F62A3 !important;
+}
+
 .text-over:link {
   color: black !important;
 }

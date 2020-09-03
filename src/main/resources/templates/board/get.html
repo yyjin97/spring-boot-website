@@ -57,6 +57,28 @@
                     </div>
                 </div>
             </section>
+            <div class="container-fluid">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <i class="fa fa-comments fa-fw"></i> Reply
+                    </div>
+
+                    <div class="card-body">
+                        <ul class="chat">
+                            <li class="clearfix" data-rno="5">
+                                <div>
+                                    <div class="header">
+                                        <strong class="text-blue">user00</strong>
+                                        <small class="float-right text-muted">2018-01-01 13:13</small>
+                                    </div>
+                                    <p class="text-lg-left mt-2">Good Job!</p>
+                                    <hr width="100%" style="color: #4e555b">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <form id="operForm" action="/board/list" method="get">
@@ -67,17 +89,6 @@
             <input type="hidden" id="keyword" name="keyword" th:value="${cri.keyword}">
         </form>
         <script>
-            console.log("=============");
-            console.log("JS TEST");
-
-            const bnoValue = "[[${board.bno}]]";
-
-            replyService.get(
-                5,
-                function (data) {
-                    console.log(data);
-                }
-            )
 
             $(document).ready(function () {
                 const operFrom = $("#operForm");
@@ -95,6 +106,34 @@
                     operFrom.submit();
                 })
             })
+
+            $(document).ready(function () {
+                const bnoValue = "[[${board.bno}]]";
+                const replyUL = $(".chat");
+
+                showList(1);
+
+                function showList(page) {
+                    replyService.getList({bno:bnoValue,page:page||1}, function (list) {
+                        let str = "";
+
+                        if(list == null || list.length == 0) {
+                            replyUL.html("");
+                            return;
+                        }
+
+                        for(let i = 0, len = list.length || 0; i < len; i++) {
+                            str += "<li class='clearfix' data-rno='" + list[i].rno + "'>";
+                            str += "<div><div class='header'><strong class='text-blue'>" + list[i].replyer + "</strong>";
+                            str += "<small class='float-right text-muted'>" + list[i].replyDate + "</small></div>";
+                            str += "<p class='text-lg-left mt-2'>" + list[i].reply + "</p>";
+                            str += "<hr width='100%' style='color: #4e555b'></div></li>";
+                        }
+
+                        replyUL.html(str);
+                    });
+                }
+            });
         </script>
     </th:block>
 <!--</body>-->
