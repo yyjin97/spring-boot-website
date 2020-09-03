@@ -15,7 +15,7 @@ import java.util.Date;
 public class ReplyVO {
 
     @Id
-    private Integer rno;
+    private int rno;
 
     private Integer bno;
 

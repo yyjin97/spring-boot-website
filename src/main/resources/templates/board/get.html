@@ -5,6 +5,9 @@
       layout:decorate="~{layout/default}">
 <!--<head>-->
     <title>Board Read</title>
+    <th:block layout:fragment="script">
+        <script type="text/javascript" src="/js/reply.js"></script>
+    </th:block>
 <!--</head>-->
 <!--<body>-->
     <th:block layout:fragment="content">
@@ -64,6 +67,18 @@
             <input type="hidden" id="keyword" name="keyword" th:value="${cri.keyword}">
         </form>
         <script>
+            console.log("=============");
+            console.log("JS TEST");
+
+            const bnoValue = "[[${board.bno}]]";
+
+            replyService.get(
+                5,
+                function (data) {
+                    console.log(data);
+                }
+            )
+
             $(document).ready(function () {
                 const operFrom = $("#operForm");
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/replies/*")
+@RequestMapping("/replies/")
 @Log4j2
 public class ReplyController {
 
@@ -41,7 +41,7 @@ public class ReplyController {
         Criteria cri = new Criteria(page, 10);
         log.info(cri);
 
-        return new ResponseEntity<>(replyService.getList(page), HttpStatus.OK);
+        return new ResponseEntity<>(replyService.getList(bno), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{rno}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +58,7 @@ public class ReplyController {
         return replyService.remove(rno) ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @RequestMapping(value = "/{rno}", method = { RequestMethod.PUT, RequestMethod.PUT },
+    @RequestMapping(value = "/{rno}", method = { RequestMethod.PUT, RequestMethod.PATCH },
                     consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> modify(@RequestBody ReplyVO replyVO,@PathVariable("rno") int rno) {
 

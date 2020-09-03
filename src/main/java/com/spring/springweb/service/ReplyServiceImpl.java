@@ -52,14 +52,15 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public int modify(ReplyVO replyVO) {
+        Date now = new Date();
 
-        if(replyRepository.existsByRno(replyVO.getRno())) {
-            log.info("#" + replyVO.getRno() + " is already existed");
-            return -1;
+        if(!replyRepository.existsByRno(replyVO.getRno())) {
+            log.info("No #" + replyVO.getRno() + " reply exist");
+            return 0;
         }
 
         log.info("modify reply #" + replyVO.getRno());
-
+        replyVO.setUpdateDate(now);
         return replyRepository.updateReply(replyVO);
     }
 
@@ -68,6 +69,7 @@ public class ReplyServiceImpl implements ReplyService {
 
         if(!replyRepository.existsByRno(rno)) {
             log.info("No #" + rno + " reply exist");
+            return false;
         }
 
         log.info("remove reply #" + rno);
