@@ -1,7 +1,6 @@
 package com.spring.springweb.repository;
 
 import com.spring.springweb.domain.BoardVO;
-import com.spring.springweb.domain.Criteria;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;

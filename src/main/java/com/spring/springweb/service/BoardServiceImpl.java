@@ -74,8 +74,12 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public boolean remove(int bno) {
-        log.info("remove boardVO: " + bno);
 
+        if(!boardRepository.existsBoardVOByBno(bno)) {
+            log.info("No #" + bno + " board exist");
+            return false;
+        }
+        log.info("remove boardVO: " + bno);
         return boardRepository.deleteBoardVOByBno(bno) == 1;
     }
 
