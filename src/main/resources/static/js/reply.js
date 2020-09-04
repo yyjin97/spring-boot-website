@@ -79,11 +79,33 @@ const replyService = (function () {
             }
         })
     }
+
+    function displayTime(timeValue){
+        const now = new Date();
+        const dateObj = new Date(timeValue);
+        const gap = now.getTime() - dateObj.getTime();
+
+        if(gap < (1000 * 60 * 60 * 24)) {
+            const hh = dateObj.getHours();
+            const mi = dateObj.getMinutes();
+            const ss = dateObj.getSeconds();
+
+            return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ":" , (ss > 9 ? '' : '0') + ss ].join('');
+        } else {
+            const yy = dateObj.getFullYear();
+            const mm = dateObj.getMonth() + 1;
+            const dd = dateObj.getDay();
+
+            return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd ].join('');
+        }
+    }
+
     return{
         add:add,
         update:update,
         get:get,
         getList:getList,
-        remove:remove
+        remove:remove,
+        displayTime:displayTime
     };
 })();

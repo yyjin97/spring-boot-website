@@ -23,11 +23,7 @@
             </section>
             <!-- Main content -->
             <section class="content container-fluid">
-
-                <!--------------------------
-                  | Your Page Content Here |
-                  -------------------------->
-
+                <!-- board -->
                 <div class="card">
                     <!-- card-header -->
                     <div class="card-header">
@@ -57,10 +53,13 @@
                     </div>
                 </div>
             </section>
+            <!-- Reply -->
             <div class="container-fluid">
                 <div class="card mt-4">
                     <div class="card-header">
                         <i class="fa fa-comments fa-fw"></i> Reply
+                        <button id="addReplyBtn" name="addReplyBtn" type="button"
+                                class="btn btn-sm float-right btn-outline-dark">New Reply</button>
                     </div>
 
                     <div class="card-body">
@@ -76,6 +75,36 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="postModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Reply</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="false">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="InputReply">Reply</label>
+                            <input type="text" class="form-control" id="InputReply" name="reply">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputReplyer">Replyer</label>
+                            <input type="text" class="form-control" id="InputReplyer" name="replyer">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modalModBtn" type="button" class="btn btn-darkgreen" data-dismiss="modal">Modify</button>
+                        <button id="modalRemoveBtn" type="button" class="btn btn-blue" data-dismiss="modal">Remove</button>
+                        <button id="modalRegBtn" type="button" class="btn btn-blue" data-dismiss="modal">Register</button>
+                        <button id="modalCloseBtn" type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -125,7 +154,7 @@
                         for(let i = 0, len = list.length || 0; i < len; i++) {
                             str += "<li class='clearfix' data-rno='" + list[i].rno + "'>";
                             str += "<div><div class='header'><strong class='text-blue'>" + list[i].replyer + "</strong>";
-                            str += "<small class='float-right text-muted'>" + list[i].replyDate + "</small></div>";
+                            str += "<small class='float-right text-muted'>" + replyService.displayTime(list[i].replyDate) + "</small></div>";
                             str += "<p class='text-lg-left mt-2'>" + list[i].reply + "</p>";
                             str += "<hr width='100%' style='color: #4e555b'></div></li>";
                         }
@@ -133,6 +162,83 @@
                         replyUL.html(str);
                     });
                 }
+
+                const modal = $(".modal");
+                const modalInputReply = modal.find("input[name='reply']");
+                const modalInputReplyer = modal.find("input[name='replyer']");
+
+                const modalRegisterBtn = $("#modalRegBtn");
+                const modalModBtn = $("#modalModBtn");
+                const modalRemoveBtn = $("#modalRemoveBtn");
+
+                $("#addReplyBtn").on("click", function (e) {
+                    modal.find("input").val("");
+                    modalModBtn.hide();
+                    modalRemoveBtn.hide();
+
+                    $(".modal").modal("show");
+                })
+
+                modalRegisterBtn.on("click", function (e) {
+
+                    const reply = {
+                        reply: modalInputReply.val(),
+                        replyer:modalInputReplyer.val(),
+                        bno:bnoValue
+                    }
+                    replyService.add(reply, function (result) {
+                        modal.find("input").val("");
+                        modal.modal("hide");
+
+                        alert(result);
+
+                        showList(1);
+                    });
+                })
+
+                modalModBtn.on("click", function (e) {
+                    const reply = {
+                        rno: modal.data("rno"),
+                        reply:modalInputReply.val(),
+                        bno:bnoValue
+                    }
+                    replyService.update(reply, function (result) {
+                        modal.find("input").val("");
+                        modal.modal("hide");
+
+                        alert(result);
+
+                        showList(1);
+                    });
+                })
+
+                modalRemoveBtn.on("click", function (e) {
+                    const rno = modal.data("rno");
+                    replyService.remove(rno, function (result) {
+                        modal.find("input").val("");
+                        modal.modal("hide");
+
+                        alert(result);
+
+                        showList(1);
+                    });
+                })
+
+                $(".chat").on("click", "li", function (e) {
+                    const rno = $(this).data("rno");
+
+                    replyService.get(rno, function (reply) {
+                        modalInputReply.val(reply.reply);
+                        modalInputReplyer.val(reply.replyer);
+                        modal.data("rno", reply.rno);
+
+                        modalRegisterBtn.hide();
+                        modalModBtn.show();
+                        modalRemoveBtn.show();
+
+                        $(".modal").modal("show");
+                    });
+                })
             });
         </script>
     </th:block>
