@@ -17,7 +17,7 @@ class ReplyRepositoryTest {
 
     @Test
     public void testGetList() {
-        log.info(replyRepository.getList(14));
+        log.info(replyRepository.getList(188, 2, 10));
     }
 
     @Test

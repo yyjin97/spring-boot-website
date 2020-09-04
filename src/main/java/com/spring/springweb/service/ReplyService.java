@@ -1,6 +1,7 @@
 package com.spring.springweb.service;
 
 import com.spring.springweb.domain.Criteria;
+import com.spring.springweb.domain.ReplyPageDTO;
 import com.spring.springweb.domain.ReplyVO;
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface ReplyService {
 
     boolean remove(int rno);
 
-    List<ReplyVO> getList(int bno);
+    List<ReplyVO> getList(Criteria cri, int bno);
+
+    ReplyPageDTO getListPage(Criteria cri, int bno);
 }

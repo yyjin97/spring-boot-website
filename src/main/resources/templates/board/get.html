@@ -76,6 +76,9 @@
                             </li>
                         </ul>
                     </div>
+
+                    <div class="card-footer reply-pagination">
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,8 +145,8 @@
 
                 showList(1);
 
-                function showList(page) {
-                    replyService.getList({bno:bnoValue,page:page||1}, function (list) {
+                function showList(page) {       //댓글 list 출력
+                    replyService.getList({bno:bnoValue, page:page || 1}, function (replyCnt, list) {
                         let str = "";
 
                         if(list == null || list.length == 0) {
@@ -160,6 +163,8 @@
                         }
 
                         replyUL.html(str);
+
+                        showReplyPage(replyCnt);
                     });
                 }
 
@@ -171,7 +176,9 @@
                 const modalModBtn = $("#modalModBtn");
                 const modalRemoveBtn = $("#modalRemoveBtn");
 
-                $("#addReplyBtn").on("click", function (e) {
+                let pageNum = 1;            //current page number !
+
+                $("#addReplyBtn").on("click", function (e) {        //댓글 추가 버튼
                     modal.find("input").val("");
                     modalModBtn.hide();
                     modalRemoveBtn.hide();
@@ -179,13 +186,13 @@
                     $(".modal").modal("show");
                 })
 
-                modalRegisterBtn.on("click", function (e) {
+                modalRegisterBtn.on("click", function (e) {         //댓글 등록 버튼 (modal)
 
                     const reply = {
                         reply: modalInputReply.val(),
                         replyer:modalInputReplyer.val(),
                         bno:bnoValue
-                    }
+                    };
                     replyService.add(reply, function (result) {
                         modal.find("input").val("");
                         modal.modal("hide");
@@ -196,7 +203,7 @@
                     });
                 })
 
-                modalModBtn.on("click", function (e) {
+                modalModBtn.on("click", function (e) {          //댓글 수정 버튼 (modal)
                     const reply = {
                         rno: modal.data("rno"),
                         reply:modalInputReply.val(),
@@ -208,11 +215,11 @@
 
                         alert(result);
 
-                        showList(1);
+                        showList(pageNum);
                     });
                 })
 
-                modalRemoveBtn.on("click", function (e) {
+                modalRemoveBtn.on("click", function (e) {               //댓글 삭제 버튼 (modal)
                     const rno = modal.data("rno");
                     replyService.remove(rno, function (result) {
                         modal.find("input").val("");
@@ -220,11 +227,11 @@
 
                         alert(result);
 
-                        showList(1);
+                        showList(pageNum);
                     });
                 })
 
-                $(".chat").on("click", "li", function (e) {
+                $(".chat").on("click", "li", function (e) {             //댓글 클릭시 댓글 표시
                     const rno = $(this).data("rno");
 
                     replyService.get(rno, function (reply) {
@@ -239,7 +246,57 @@
                         $(".modal").modal("show");
                     });
                 })
-            });
+
+                const replyPageFooter = $(".reply-pagination");
+
+                function showReplyPage(replyCnt) {              //댓글 pagination 출력
+                    let endNum = Math.ceil(pageNum/10.0) * 10;
+                    let startNum = endNum - 9;
+
+                    let prev = (startNum != 1);
+                    let next = false;
+
+                    if(endNum * 10 >= replyCnt) {
+                        endNum = Math.ceil(replyCnt/10.0);
+                    }
+                    if(endNum * 10 < replyCnt) {
+                        next = true;
+                    }
+
+                    let str = "<ul class='pagination float-right'>";
+
+                    if(prev) {
+                        str += "<li class='page-item'><a class='page-link' href='" + (startNum - 1) + "'>Prev</a></li>";
+                    }
+
+                    for(let i = startNum; i <= endNum; i++) {
+                        const active = pageNum == i ? "active" : "";
+
+                        str += "<li class='page-item " + active + "'><a class='page-link' href='" + i + "'>" + i + "</a></li>";
+                    }
+
+                    if(next) {
+                        str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) + "'>Next</a></li>";
+                    }
+
+                    str += "</ul>";
+
+                    replyPageFooter.html(str);
+                }
+
+                replyPageFooter.on("click","li a", function (e) {
+                    e.preventDefault();
+                    console.log("page click");
+
+                    const targetPageNum = $(this).attr("href");
+
+                    console.log("targetPageNum: " + targetPageNum);
+
+                    pageNum = targetPageNum;
+
+                    showList(targetPageNum);
+                })
+            })
         </script>
     </th:block>
 <!--</body>-->

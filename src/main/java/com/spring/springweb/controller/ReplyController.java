@@ -1,6 +1,7 @@
 package com.spring.springweb.controller;
 
 import com.spring.springweb.domain.Criteria;
+import com.spring.springweb.domain.ReplyPageDTO;
 import com.spring.springweb.domain.ReplyVO;
 import com.spring.springweb.service.ReplyService;
 import groovy.transform.BaseScript;
@@ -35,13 +36,13 @@ public class ReplyController {
     }
 
     @GetMapping(value = "/pages/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") int bno) {
+    public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") int bno) {
         log.info("getList..................");
 
         Criteria cri = new Criteria(page, 10);
         log.info(cri);
 
-        return new ResponseEntity<>(replyService.getList(bno), HttpStatus.OK);
+        return new ResponseEntity<>(replyService.getListPage(cri, bno), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{rno}", produces = MediaType.APPLICATION_JSON_VALUE)

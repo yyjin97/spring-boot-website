@@ -1,6 +1,7 @@
 package com.spring.springweb.service;
 
 import com.spring.springweb.domain.Criteria;
+import com.spring.springweb.domain.ReplyPageDTO;
 import com.spring.springweb.domain.ReplyVO;
 import com.spring.springweb.repository.ReplyRepository;
 import lombok.extern.log4j.Log4j2;
@@ -77,9 +78,23 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public List<ReplyVO> getList(int bno) {
+    @Deprecated
+    public List<ReplyVO> getList(Criteria cri, int bno) {
         log.info("get reply list of a board #" + bno);
 
-        return replyRepository.getList(bno);
+        int amount = cri.getAmount();
+        int start = (cri.getPageNum() - 1) * amount;
+
+        return replyRepository.getList(bno, start, amount);
+    }
+
+    @Override
+    public ReplyPageDTO getListPage(Criteria cri, int bno) {
+        log.info("get reply list of a board #" + bno);
+
+        int amount = cri.getAmount();
+        int start = (cri.getPageNum() - 1) * amount;
+
+        return new ReplyPageDTO(replyRepository.getCntByBno(bno), replyRepository.getList(bno, start, amount));
     }
 }
