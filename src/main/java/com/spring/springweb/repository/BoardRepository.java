@@ -22,6 +22,10 @@ public interface BoardRepository extends Repository<BoardVO, Integer> {
             "WHERE CASE WHEN :type = 1 THEN (board.title LIKE %:keyword%) ELSE (board.writer LIKE %:keyword%) END", nativeQuery = true)
     int getTotalCount(int type, String keyword);
 
+    @Query("UPDATE BoardVO board SET board.replyCnt = board.replyCnt + :amount where board.bno = :bno")
+    @Modifying
+    void updateReplyCnt(int bno, int amount);
+
     @Query("UPDATE BoardVO SET title=:#{#boardVO.title}, content=:#{#boardVO.content}, writer=:#{#boardVO.writer}, updateDate=:#{#boardVO.updateDate} WHERE bno = :#{#boardVO.bno}")
     @Transactional
     @Modifying

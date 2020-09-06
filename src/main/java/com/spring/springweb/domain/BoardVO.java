@@ -29,6 +29,9 @@ public class BoardVO {
     @Column(name = "updatedate")
     private Date updateDate;
 
+    @Column(name = "replycnt")
+    private int replyCnt;
+
     @Override
     public String toString() {
         return "BoardVO{" +

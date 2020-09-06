@@ -59,7 +59,6 @@ const replyService = (function () {
             function (data) {
                 if(callback)
                     callback(data.replyCnt, data.list);
-                    //callback(data);
             }).fail(function (xhr, status, err) {
                 if(error)
                     error();

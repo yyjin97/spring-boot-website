@@ -54,7 +54,7 @@
                                 <tbody>
                                 <tr class="text-over" th:each="board : ${list}">
                                     <td th:text="${board.bno}"></td>
-                                    <td><a class="text-over move" th:href="${board.bno}">[[${board.title}]]</a></td>
+                                    <td><a class="text-over move" th:href="${board.bno}">[[${board.title}]] <small>[ [[${board.replyCnt}]] ]</small></a></td>
                                     <td th:text="${board.writer}"></td>
                                     <td th:text="${#dates.format(board.regDate,'yyyy-MM-dd')}"></td>
                                     <td th:text="${#dates.format(board.updateDate, 'yyyy-MM-dd')}"></td>

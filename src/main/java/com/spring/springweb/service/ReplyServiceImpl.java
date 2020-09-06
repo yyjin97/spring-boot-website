@@ -3,9 +3,11 @@ package com.spring.springweb.service;
 import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.domain.ReplyPageDTO;
 import com.spring.springweb.domain.ReplyVO;
+import com.spring.springweb.repository.BoardRepository;
 import com.spring.springweb.repository.ReplyRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -16,10 +18,14 @@ public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
 
-    public ReplyServiceImpl(ReplyRepository replyRepository) {
+    private final BoardRepository boardRepository;
+
+    public ReplyServiceImpl(ReplyRepository replyRepository, BoardRepository boardRepository) {
         this.replyRepository = replyRepository;
+        this.boardRepository = boardRepository;
     }
 
+    @Transactional
     @Override
     public int register(ReplyVO replyVO) {
         Date now = new Date();
@@ -40,6 +46,8 @@ public class ReplyServiceImpl implements ReplyService {
         log.info("register reply #" + replyVO.getRno());
 
         replyRepository.save(replyVO);
+
+        boardRepository.updateReplyCnt(replyVO.getBno(), 1);
 
         return 1;
     }
@@ -65,6 +73,7 @@ public class ReplyServiceImpl implements ReplyService {
         return replyRepository.updateReply(replyVO);
     }
 
+    @Transactional
     @Override
     public boolean remove(int rno) {
 
@@ -74,6 +83,10 @@ public class ReplyServiceImpl implements ReplyService {
         }
 
         log.info("remove reply #" + rno);
+
+        ReplyVO replyVO = replyRepository.getByRno(rno);
+        boardRepository.updateReplyCnt(replyVO.getBno(), -1);
+
         return replyRepository.deleteByRno(rno) == 1;
     }
 
