@@ -29,5 +29,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.warn("ROLE NAMES: " + roleNames);
 
         httpServletResponse.sendRedirect("/");
+        return;
     }
 }

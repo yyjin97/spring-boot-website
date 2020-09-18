@@ -24,7 +24,8 @@ public class CommonController {
     }
 
     @GetMapping("/logout")
-    public void logout(){
+    public String logout(){
         log.info("Logout Success");
+        return "index";
     }
 }
