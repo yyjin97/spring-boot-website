@@ -70,9 +70,9 @@ public class BoardController {
         return "redirect:/board/get";
     }
 
-    @PostMapping("/remove")
     @PreAuthorize("principal.username == #writer")
-    public String remove(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr, String writer) {
+    @PostMapping("/remove")
+    public String remove(@RequestParam("bno") int bno, @RequestParam("writer") String writer, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         log.info("remove: " + bno);
 
         if(boardService.remove(bno)) {

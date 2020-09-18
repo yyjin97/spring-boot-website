@@ -31,7 +31,7 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="/board/modify" method="post">
+                <form th:action="@{/board/modify}" method="post">
                     <div class="card-body" th:object="${board}">
                         <input th:field="*{bno}" type="hidden">
                         <div class="form-group">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <label for="InputBoardWriter">Writer</label>
-                            <input th:field="*{writer}" type="text"  class="form-control" id="InputBoardWriter">
+                            <input th:field="*{writer}" class="form-control" id="InputBoardWriter" readonly="readonly">
                         </div>
                     </div>
                     <input name="pageNum" th:value="${cri.pageNum}" type="hidden">
@@ -55,26 +55,29 @@
                         <button type="submit" class="btn btn-blue">Submit</button>
                         <button data-oper="cancel" type="button" class="btn btn-darkgreen">Cancel</button>
                     </div>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 </form>
             </div>
             <!-- /.box -->
         </section>
     </div>
 
-    <form id="cancelForm" action="/board/get" method="get">
+    <form id="actionForm" th:action="@{/board/get}" method="get">
         <input type="hidden" name="bno" th:value="${board.bno}">
         <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
         <input type="hidden" name="amount" th:value="${cri.amount}">
         <input type="hidden" name="type" th:value="${cri.type}">
         <input type="hidden" name="keyword" th:value="${cri.keyword}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
     </form>
     <script>
         $(document).ready(function () {
-            const cancelFrom = $("#cancelForm");
+            const actionForm = $("#actionForm");
 
             $("button[data-oper='cancel']").on("click", function (e) {
-                cancelFrom.submit();
+                actionForm.submit();
             })
+
         })
     </script>
 </th:block>
