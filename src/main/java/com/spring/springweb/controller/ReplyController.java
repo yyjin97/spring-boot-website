@@ -4,14 +4,12 @@ import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.domain.ReplyPageDTO;
 import com.spring.springweb.domain.ReplyVO;
 import com.spring.springweb.service.ReplyService;
-import groovy.transform.BaseScript;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/replies/")
@@ -24,6 +22,7 @@ public class ReplyController {
         this.replyService = replyService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
     public ResponseEntity<String> create(@RequestBody ReplyVO replyVO) {
           log.info("ReplyVO: " + replyVO);

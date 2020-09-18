@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/default}">
 <!--<head>-->
     <title>Board Register</title>
@@ -43,13 +44,14 @@
                         </div>
                         <div class="form-group">
                             <label for="writer">Writer</label>
-                            <input type="text" class="form-control" id="writer" name="writer" placeholder="Enter writer">
+                            <input class="form-control" id="writer" name="writer" readonly="readonly" th:value="${#authentication.principal.username}">
                         </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-blue">Submit</button>
                         <button type="button" class="btn btn-darkgreen" onclick="location.href='/board/list'">Cancel</button>
                     </div>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 </form>
             </div>
         </section>

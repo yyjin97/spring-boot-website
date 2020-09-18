@@ -5,6 +5,8 @@ import com.spring.springweb.domain.Criteria;
 import com.spring.springweb.domain.PageDTO;
 import com.spring.springweb.service.BoardService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +38,11 @@ public class BoardController {
     }
 
     @GetMapping("/register")
+    @PreAuthorize("isAuthenticated()")
     public void register() { }
 
     @PostMapping("/register")
+    @PreAuthorize("isAuthenticated()")
     public String register(BoardVO board, RedirectAttributes rttr) {
         log.info("register: " + board);
 
@@ -49,6 +53,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("principal.username == #board.writer")
     @PostMapping("/modify")
     public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
         log.info("modify post: " + board);
@@ -66,7 +71,8 @@ public class BoardController {
     }
 
     @PostMapping("/remove")
-    public String remove(@RequestParam("bno") int bno,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+    @PreAuthorize("principal.username == #writer")
+    public String remove(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr, String writer) {
         log.info("remove: " + bno);
 
         if(boardService.remove(bno)) {
