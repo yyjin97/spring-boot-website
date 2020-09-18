@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default}"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      layout:decorate="~{layout/default}">
 <!--<head>-->
     <title>Board Read</title>
     <th:block layout:fragment="script">
@@ -70,10 +70,10 @@
                             <li class="clearfix" data-rno="5">
                                 <div>
                                     <div class="header">
-                                        <strong class="text-blue"></strong>
-                                        <small class="float-right text-muted"></small>
+                                        <strong class="text-blue">user00</strong>
+                                        <small class="float-right text-muted">content</small>
                                     </div>
-                                    <p class="text-lg-left mt-2"></p>
+                                    <p class="text-lg-left mt-2">1997.08.14</p>
                                     <hr width="100%" style="color: #4e555b">
                                 </div>
                             </li>
@@ -123,6 +123,12 @@
             <input type="hidden" id="type" name="type" th:value="${cri.type}">
             <input type="hidden" id="keyword" name="keyword" th:value="${cri.keyword}">
         </form>
+
+        <div sec:authorize="isAuthenticated()">
+            <input type="hidden" id="checkAuth" th:value="${#authentication.principal.username}">
+            <input type="hidden" id="header" th:value="${_csrf.headerName}">
+            <input type="hidden" id="token" th:value="${_csrf.token}">
+        </div>
         <script>
 
             $(document).ready(function () {
@@ -179,7 +185,19 @@
                 const modalModBtn = $("#modalModBtn");
                 const modalRemoveBtn = $("#modalRemoveBtn");
 
-                let replyer = "[[${#authentication.principal.username}]]";
+                let replyer = null;
+
+                const auth = $("#checkAuth").val();
+                const authHeader = $("#header").val();
+                const authToken = $("#token").val();
+
+                if(auth != null) {
+                    replyer = auth;
+
+                    $(document).ajaxSend(function (e, xhr, options) {
+                        xhr.setRequestHeader(authHeader, authToken);
+                    });
+                }
 
                 let pageNum = 1;            //current page number !
 
@@ -192,13 +210,6 @@
 
                     $(".modal").modal("show");
                 })
-
-                const header = "X-CSRF-TOKEN";
-                const token = "[[${_csrf.token}]]";
-
-                $(document).ajaxSend(function (e, xhr, options) {
-                    xhr.setRequestHeader(header, token);
-                });
 
                 modalRegisterBtn.on("click", function (e) {         //댓글 등록 버튼 (modal)
 
