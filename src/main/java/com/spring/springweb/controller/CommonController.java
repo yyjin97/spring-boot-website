@@ -14,7 +14,7 @@ public class CommonController {
     public void login(String error, String logout, Model model) {
 
         if(error != null) {
-            model.addAttribute("error", "아이디와 비밀번호를 다시 확인해주세요.");
+            model.addAttribute("error", "* 아이디와 비밀번호를 다시 확인해주세요 *");
         }
         if(logout != null) {
             model.addAttribute("logout", "로그아웃 완료!");
@@ -23,9 +23,4 @@ public class CommonController {
         return;
     }
 
-    @GetMapping("/logout")
-    public String logout(){
-        log.info("Logout Success");
-        return "index";
-    }
 }
